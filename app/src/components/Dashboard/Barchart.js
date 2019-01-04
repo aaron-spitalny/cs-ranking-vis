@@ -21,33 +21,41 @@ class Barchart extends Component {
 						# of Ratings: ${schoolData[key].numOfRatings}
 						# of Prof. Rated: ${schoolData[key].numOfProfessors}
 						USNews Rating: ${key}`,
-				ranking: key,
+				ranking: Number(key),
 				...schoolData[key]
 			};
 		});
 		DATA.sort(
 			(a, b) =>
-				Number(a[this.props.sort]) > Number(b[this.props.sort])
+				a[this.props.sort] > b[this.props.sort]
 					? 1
-					: Number(b[this.props.sort]) > Number(a[this.props.sort])
+					: b[this.props.sort] > a[this.props.sort]
 						? -1
 						: 0
 		);
 		return (
 			<VictoryChart
 				width={1000}
-				height={500}
-				domainPadding={20}
+				height={700}
+				animate={{
+					duration: 2000,
+					onLoad: { duration: 1000 }
+				}}
+				padding={{
+					top: 40,
+					bottom: 300,
+					left: 50,
+					right: 20
+				}}
+				domainPadding={{ y: 40, x: 20 }}
 				theme={VictoryTheme.material}>
 				<VictoryAxis
 					tickLabelComponent={
-						<VictoryLabel y={530} x={(a,b,c,d,e) => {
-							console.log(a,b,c,d,e);
-							return a;
-						}} angle={90} style={{ fontSize: 11 }} />
+						
+						<VictoryLabel textAnchor={"start"} angle={90} dy={-6} style={{ fontSize: 11 }} />
 					}
 				/>
-				<VictoryAxis dependentAxis/>
+				<VictoryAxis dependentAxis />
 				<VictoryBar
 					events={[
 						{
